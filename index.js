@@ -7,8 +7,10 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// 🔥 Load Firebase Service Account
-const serviceAccount = require("./serviceAccountKey.json");
+// 🔥 Load Firebase Service Account from Environment Variable
+const serviceAccount = JSON.parse(
+  process.env.FIREBASE_SERVICE_ACCOUNT
+);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),

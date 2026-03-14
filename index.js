@@ -17,7 +17,8 @@ admin.initializeApp({
 });
 
 app.post("/sendNotification", async (req, res) => {
-  const { token, title, body, senderId } = req.body;
+
+  const { token, title, body, senderId, chatId, messageId } = req.body;
 
   if (!token) {
     return res.status(400).send("Token missing");
@@ -26,17 +27,24 @@ app.post("/sendNotification", async (req, res) => {
   const message = {
     token: token,
     data: {
-      title: title,
-      body: body,
-      senderId: senderId
+      title: String(title),
+      body: String(body),
+      senderId: String(senderId),
+      chatId: String(chatId),
+      messageId: String(messageId)
     }
   };
 
   try {
+
     await admin.messaging().send(message);
+
     res.send("Notification sent successfully");
+
   } catch (error) {
+
     console.error(error);
+
     res.status(500).send("Error sending notification");
   }
 });

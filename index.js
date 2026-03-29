@@ -1,3 +1,4 @@
+```javascript
 const express = require("express");
 const admin = require("firebase-admin");
 const cors = require("cors");
@@ -30,8 +31,15 @@ app.post("/sendNotification", async (req, res) => {
     return res.status(400).send("Token missing");
   }
 
+  // ✅ UPDATED MESSAGE (HIGH PRIORITY FIX)
   const message = {
     token: token,
+
+    android: {
+      priority: "high",          // 🔥 CRITICAL FIX
+      ttl: 3600 * 1000           // optional (1 hour)
+    },
+
     data: {
       title: String(title),
       body: String(body),
@@ -55,3 +63,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log("Server running on port " + PORT);
 });
+```
